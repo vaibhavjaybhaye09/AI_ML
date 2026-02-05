@@ -2,14 +2,15 @@ import cv2
 import os
 
 # Path to video file
-video_path = "input.mp4"
+VIDEO_PATH = r"C:\Users\cg636\Documents\New folder\AI_ML\frame\your_video.mp4"
+
 
 # Folder to save frames
 output_dir = "frames"
 os.makedirs(output_dir, exist_ok=True)
 
 # Read video
-cap = cv2.VideoCapture(video_path)
+cap = cv2.VideoCapture(VIDEO_PATH)
 
 frame_count = 0
 
