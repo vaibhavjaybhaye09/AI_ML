@@ -1,29 +1,36 @@
 import cv2
 import os
 
-# Path to video file
-VIDEO_PATH = r"C:\Users\cg636\Documents\New folder\AI_ML\frame\your_video.mp4"
+# ============== SETTINGS ==============
+VIDEO_PATH = r"C:\Users\cg636\Documents\New folder\AI_ML\frame\input.mp4"
+OUTPUT_DIR = "raw_4"
+# ======================================
 
+# Create output directory
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Folder to save frames
-output_dir = "frames"
-os.makedirs(output_dir, exist_ok=True)
-
-# Read video
 cap = cv2.VideoCapture(VIDEO_PATH)
+if not cap.isOpened():
+    raise RuntimeError("Cannot open video file")
 
-frame_count = 0
+frame_id = 0
+saved_id = 0
 
 while True:
     ret, frame = cap.read()
     if not ret:
         break
 
-    # Save frame
-    frame_filename = os.path.join(output_dir, f"frame_{frame_count:05d}.jpg")
-    cv2.imwrite(frame_filename, frame)
+    # take 2 frame, skip 2 frame
+    if frame_id  % 4 == 0:
+        filename = f"frame_{saved_id:06d}.jpg"
+        cv2.imwrite(os.path.join(OUTPUT_DIR, filename), frame)
+        saved_id += 1
 
-    frame_count += 1
+    frame_id += 1
 
 cap.release()
-print(f"Done! {frame_count} frames saved in '{output_dir}' folder.")
+
+print("Extraction completed")
+print("Total frames read :", frame_id)
+print("Frames saved      :", saved_id)
